@@ -33,7 +33,6 @@ public class TodoRepositoryTest {
     public void itShouldListTwo() {
         List<Todo> todos = todoRepository.findByResponsible("charles@natural.com");
         assertEquals(2,todos.size());
-        System.out.println("entróal2");
     }
 
     @Test
@@ -43,4 +42,3 @@ public class TodoRepositoryTest {
     }
 
 }
-    

@@ -6,6 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -22,6 +27,9 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
+        MongoOperations mongoOperation = (MongoOperations) applicationContext.getBean("mongoTemplate");
+
         customerRepository.deleteAll();
 
         customerRepository.save(new Customer("Alice", "Smith"));
@@ -35,7 +43,12 @@ public class Application implements CommandLineRunner {
         for (Customer customer : customerRepository.findAll()) {
             System.out.println(customer);
         }
-        System.out.println();
+
+        Query query = new Query();
+        query.addCriteria(Criteria.where("firstName").is("Alice"));
+
+        Customer customer = mongoOperation.findOne(query, Customer.class);
+        System.out.println(customer);
 
 
     }
