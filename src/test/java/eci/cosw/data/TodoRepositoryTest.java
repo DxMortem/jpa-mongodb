@@ -1,12 +1,16 @@
 package eci.cosw.data;
 
 import eci.cosw.data.model.Todo;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,14 +31,16 @@ public class TodoRepositoryTest {
 
     @Test
     public void itShouldListTwo() {
-        List<Todo> todos = todoRepository.findResponsible("charles@natural.com");
+        List<Todo> todos = todoRepository.findByResponsible("charles@natural.com");
         assertEquals(2,todos.size());
+        System.out.println("entróal2");
     }
 
     @Test
     public void itShouldListZero() {
-        List<Todo> todos = todoRepository.findResponsible("nobody@natural.com");
+        List<Todo> todos = todoRepository.findByResponsible("nobody@natural.com");
         assertEquals(0,todos.size());
     }
 
 }
+    
